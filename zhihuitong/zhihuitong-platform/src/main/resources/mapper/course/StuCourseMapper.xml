@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuitong.course.mapper.StuCourseMapper">
+    
+    <resultMap type="StuCourse" id="StuCourseResult">
+        <result property="id"    column="id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="term"    column="term"    />
+        <result property="name"    column="name"    />
+        <result property="teacher"    column="teacher"    />
+        <result property="dayOfWeek"    column="day_of_week"    />
+        <result property="startSection"    column="start_section"    />
+        <result property="endSection"    column="end_section"    />
+        <result property="location"    column="location"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+    </resultMap>
+
+    <sql id="selectStuCourseVo">
+        select id, student_id, term, name, teacher, day_of_week, start_section, end_section, location, remark, created_at, updated_at from stu_course
+    </sql>
+
+    <select id="selectStuCourseList" parameterType="StuCourse" resultMap="StuCourseResult">
+        <include refid="selectStuCourseVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="term != null  and term != ''"> and term = #{term}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="teacher != null  and teacher != ''"> and teacher like concat('%', #{teacher}, '%')</if>
+            <if test="dayOfWeek != null "> and day_of_week = #{dayOfWeek}</if>
+        </where>
+    </select>
+    
+    <select id="selectStuCourseById" parameterType="Integer" resultMap="StuCourseResult">
+        <include refid="selectStuCourseVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertStuCourse" parameterType="StuCourse" useGeneratedKeys="true" keyProperty="id">
+        insert into stu_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="term != null and term != ''">term,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="teacher != null and teacher != ''">teacher,</if>
+            <if test="dayOfWeek != null">day_of_week,</if>
+            <if test="startSection != null">start_section,</if>
+            <if test="endSection != null">end_section,</if>
+            <if test="location != null">location,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="term != null and term != ''">#{term},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="teacher != null and teacher != ''">#{teacher},</if>
+            <if test="dayOfWeek != null">#{dayOfWeek},</if>
+            <if test="startSection != null">#{startSection},</if>
+            <if test="endSection != null">#{endSection},</if>
+            <if test="location != null">#{location},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStuCourse" parameterType="StuCourse">
+        update stu_course
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="term != null and term != ''">term = #{term},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="teacher != null and teacher != ''">teacher = #{teacher},</if>
+            <if test="dayOfWeek != null">day_of_week = #{dayOfWeek},</if>
+            <if test="startSection != null">start_section = #{startSection},</if>
+            <if test="endSection != null">end_section = #{endSection},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStuCourseById" parameterType="Integer">
+        delete from stu_course where id = #{id}
+    </delete>
+
+    <delete id="deleteStuCourseByIds" parameterType="String">
+        delete from stu_course where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
