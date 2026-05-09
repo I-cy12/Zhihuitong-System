@@ -59,6 +59,15 @@
             <artifactId>zhihuitong-platform</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.zhihuitong</groupId>
+            <artifactId>zhihuitong-oss</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zhihuitong</groupId>
+            <artifactId>zhihuitong-oss</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

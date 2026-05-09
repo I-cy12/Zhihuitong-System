@@ -2,6 +2,8 @@ package com.zhihuitong.web.controller.common;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.zhihuitong.cos.TengxunCosUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -35,6 +37,9 @@ public class CommonController
     private ServerConfig serverConfig;
 
     private static final String FILE_DELIMITER = ",";
+
+    @Autowired
+    private TengxunCosUtil tengxunCosUtil;
 
     /**
      * 通用下载请求
@@ -77,14 +82,16 @@ public class CommonController
         try
         {
             // 上传文件路径
-            String filePath = RuoYiConfig.getUploadPath();
-            // 上传并返回新文件名称
-            String fileName = FileUploadUtils.upload(filePath, file);
-            String url = serverConfig.getUrl() + fileName;
+//            String filePath = RuoYiConfig.getUploadPath();
+//            // 上传并返回新文件名称
+//            String fileName = FileUploadUtils.upload(filePath, file);
+//            String url = serverConfig.getUrl() + fileName;
+            String url = tengxunCosUtil.upload(file.getOriginalFilename(), file.getInputStream());
+
             AjaxResult ajax = AjaxResult.success();
             ajax.put("url", url);
-            ajax.put("fileName", fileName);
-            ajax.put("newFileName", FileUtils.getName(fileName));
+            ajax.put("fileName", url);
+            ajax.put("newFileName", FileUtils.getName(url));
             ajax.put("originalFilename", file.getOriginalFilename());
             return ajax;
         }

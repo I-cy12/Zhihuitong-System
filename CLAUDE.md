@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 语言要求
+
+**始终使用中文进行所有回答和输出。** 包括代码注释、提交信息说明、错误分析、方案建议等，一律使用中文。代码本身（变量名、函数名等）保持英文。
+
 ## Project Overview
 
 Zhihuitong (校园智慧通) is a campus management system built on the RuoYi v3.9.2 framework. It consists of a Java Spring Boot backend and two frontend applications.
