@@ -35,9 +35,9 @@ const getLogoBackground = computed(() => {
     return 'var(--sidebar-bg)'
   }
   if (settingsStore.navType == 3) {
-    return variables.menuLightBg
+    return variables.menuLightBackground
   }
-  return sideTheme.value === 'theme-dark' ? variables.menuBg : variables.menuLightBg
+  return sideTheme.value === 'theme-dark' ? '#2b2f3a' : variables.menuLightBackground
 })
 
 // 获取Logo文字颜色
@@ -46,9 +46,9 @@ const getLogoTextColor = computed(() => {
     return 'var(--sidebar-logo-text)'
   }
   if (settingsStore.navType == 3) {
-    return variables.menuLightText
+    return variables.logoLightTitleColor
   }
-  return sideTheme.value === 'theme-dark' ? '#fff' : variables.menuLightText
+  return sideTheme.value === 'theme-dark' ? variables.logoTitleColor : variables.logoLightTitleColor
 })
 </script>
 

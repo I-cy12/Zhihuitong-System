@@ -142,3 +142,21 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# AI 代理配置
+agent:
+  python-service:
+    # Python AI 服务地址
+    url: http://localhost:8000
+    # 连接超时（毫秒）
+    connect-timeout: 5000
+    # 响应超时（毫秒）
+    response-timeout: 30000
+    # 最大缓冲区（字节，默认 16MB）
+    max-buffer-size: 16777216
+
+# 允许匿名访问的URL
+security:
+  permit-all:
+    urls:
+      - /knowledge/knowledge/published

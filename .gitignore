@@ -36,6 +36,11 @@ nbdist/
 rebel.xml
 
 ################
+# Claude Code
+################
+.claude/
+
+################
 # Java / Maven
 ################
 **/target/
@@ -63,9 +68,31 @@ pnpm-lock.yaml
 frontend/dist/
 zhihuitong/zhihuitong-ui/dist/
 
+# Vite cache
+frontend/node_modules/.vite/
+
 # Test coverage
 coverage/
 tests/**/coverage/
+
+################
+# Python
+################
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Python agent runtime data & config
+zhihuitong-agent-python/.env
+zhihuitong-agent-python/data/
+zhihuitong-agent-python/.venv/
 
 ################
 # Environment / Secrets

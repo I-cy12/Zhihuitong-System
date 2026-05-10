@@ -19,8 +19,8 @@ import java.util.Date;
 public class TengxunCosUtil {
 
     // 腾讯云配置（请在配置文件中填写真实密钥）
-    private String secretId = ""; // TODO: 从配置文件读取
-    private String secretKey = ""; // TODO: 从配置文件读取
+    private String secretId = "YOUR_SECRET_ID"; // TODO: 从配置文件读取
+    private String secretKey = "YOUR_SECRET_KEY"; // TODO: 从配置文件读取
     private String region = "ap-beijing";
     private String bucketName = "moliya-bloger-1423725546";
 

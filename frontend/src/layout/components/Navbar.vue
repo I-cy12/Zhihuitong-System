@@ -36,6 +36,7 @@
         <el-tooltip content="消息通知" effect="dark" placement="bottom">
           <header-notice id="header-notice" class="right-menu-item hover-effect" />
         </el-tooltip>
+
       </template>
 
       <el-dropdown @command="handleCommand" class="avatar-container right-menu-item hover-effect" trigger="hover">
@@ -61,6 +62,7 @@
         </template>
       </el-dropdown>
     </div>
+
   </div>
 </template>
 
@@ -278,10 +280,10 @@ async function toggleTheme(event?: MouseEvent): Promise<void> {
 
         .user-avatar {
           cursor: pointer;
-          width: 30px;
-          height: 30px;
+          width: 40px;
+          height: 40px;
           margin-right: 8px;
-          border-radius: 50%;
+          border-radius: 10px;
         }
 
         .user-nickname{

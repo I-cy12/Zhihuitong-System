@@ -89,6 +89,19 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/agent',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'chat',
+        component: () => import('@/views/agent/chat/index.vue'),
+        name: 'AgentChat',
+        meta: { title: 'AI 助手', icon: 'chat' }
+      }
+    ]
   }
 ]
 

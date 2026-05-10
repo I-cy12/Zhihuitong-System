@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuitong.knowledge.mapper.SysCampusKnowledgeMapper">
+    
+    <resultMap type="SysCampusKnowledge" id="SysCampusKnowledgeResult">
+        <result property="id"    column="id"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysCampusKnowledgeVo">
+        select id, type_id, title, content, file_url, status, create_by, create_time, update_time from sys_campus_knowledge
+    </sql>
+
+    <select id="selectSysCampusKnowledgeList" parameterType="SysCampusKnowledge" resultMap="SysCampusKnowledgeResult">
+        <include refid="selectSysCampusKnowledgeVo"/>
+        <where>  
+            <if test="typeId != null "> and type_id = #{typeId}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysCampusKnowledgeById" parameterType="Long" resultMap="SysCampusKnowledgeResult">
+        <include refid="selectSysCampusKnowledgeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysCampusKnowledge" parameterType="SysCampusKnowledge" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_campus_knowledge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">type_id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="content != null">content,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">#{typeId},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="content != null">#{content},</if>
+            <if test="fileUrl != null">#{fileUrl},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysCampusKnowledge" parameterType="SysCampusKnowledge">
+        update sys_campus_knowledge
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="fileUrl != null">file_url = #{fileUrl},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysCampusKnowledgeById" parameterType="Long">
+        delete from sys_campus_knowledge where id = #{id}
+    </delete>
+
+    <delete id="deleteSysCampusKnowledgeByIds" parameterType="String">
+        delete from sys_campus_knowledge where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectAllPublishedKnowledge" resultMap="SysCampusKnowledgeResult">
+        <include refid="selectSysCampusKnowledgeVo"/>
+        where status = '1'
+        order by id
+    </select>
+</mapper>

@@ -63,9 +63,16 @@
             <groupId>com.zhihuitong</groupId>
             <artifactId>zhihuitong-oss</artifactId>
         </dependency>
+
+        <!-- AI 代理模块-->
         <dependency>
             <groupId>com.zhihuitong</groupId>
-            <artifactId>zhihuitong-oss</artifactId>
+            <artifactId>zhihuitong-agent</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zhihuitong</groupId>
+            <artifactId>zhihuitong-knowledge</artifactId>
         </dependency>
 
     </dependencies>

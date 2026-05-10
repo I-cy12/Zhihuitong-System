@@ -1,17 +1,17 @@
 // base color
 $blue: #324157;
-$light-blue: #333c46;
-$red: #C03639;
-$pink: #E65D6E;
-$green: #30B08F;
-$tiffany: #4AB7BD;
-$yellow: #FEC171;
-$panGreen: #30B08F;
+$light-blue: #3a71a8;
+$red: #c03639;
+$pink: #e65d6e;
+$green: #30b08f;
+$tiffany: #4ab7bd;
+$yellow: #fec171;
+$panGreen: #30b08f;
 
-// 默认主题变量
+// 默认主题变量 (若依Plus风格)
 $menuText: #bfcbd9;
-$menuActiveText: #409eff;
-$menuBg: #1a1f2e;
+$menuActiveText: #f4f4f5;
+$menuBg: #1f2d3d;
 $menuHover: #263445;
 
 // 浅色主题theme-light
@@ -24,12 +24,18 @@ $menuLightActiveText: #409EFF;
 $base-sidebar-width: 200px;
 $sideBarWidth: 200px;
 
-// 菜单暗色变量
-$base-menu-color: rgba(255,255,255,.65);
-$base-menu-color-active: #ffffff;
-$base-menu-background: #1a1f2e;
-$base-sub-menu-background: #141824;
-$base-sub-menu-hover: rgba(255,255,255,.06);
+// 菜单暗色变量 (若依Plus风格)
+$base-menu-color: var(--menuColor);
+$base-menu-color-active: var(--menuActiveText);
+$base-menu-background: var(--menuBg);
+$base-sub-menu-background: var(--subMenuBg);
+$base-sub-menu-hover: var(--subMenuHover);
+$base-sub-menu-title-hover: var(--subMenuTitleHover);
+$base-menu-hover: var(--menuHover);
+$base-logo-title-color: #ffffff;
+$base-menu-light-color: rgba(0, 0, 0, 0.7);
+$base-menu-light-background: #ffffff;
+$base-logo-light-title-color: #001529;
 
 // 组件变量
 $--color-primary: #409EFF;
@@ -39,15 +45,14 @@ $--color-danger: #F56C6C;
 $--color-info: #909399;
 
 :export {
-  menuText: $menuText;
-  menuActiveText: $menuActiveText;
-  menuBg: $menuBg;
-  menuHover: $menuHover;
-  menuLightBg: $menuLightBg;
-  menuLightHover: $menuLightHover;
-  menuLightText: $menuLightText;
-  menuLightActiveText: $menuLightActiveText;
+  menuColor: $menuText;
+  menuLightColor: $menuLightText;
+  menuColorActive: $menuActiveText;
+  menuBackground: $menuBg;
+  menuLightBackground: $menuLightBg;
   sideBarWidth: $sideBarWidth;
+  logoTitleColor: $base-logo-title-color;
+  logoLightTitleColor: $base-logo-light-title-color;
   // 导出基础颜色
   blue: $blue;
   lightBlue: $light-blue;
@@ -65,23 +70,54 @@ $--color-info: #909399;
   colorInfo: $--color-info;
 }
 
-// CSS变量定义
+// CSS变量定义 (若依Plus风格)
 :root {
+  /* 菜单主题变量 */
+  --menuBg: #1f2d3d;
+  --menuColor: #bfcbd9;
+  --menuActiveText: #f4f4f5;
+  --menuHover: #263445;
+
+  --subMenuBg: #1f2d3d;
+  --subMenuActiveText: #f4f4f5;
+  --subMenuHover: #001528;
+  --subMenuTitleHover: #293444;
+
+  /* 菜单栏缩进 */
+  --el-menu-base-level-padding: 12px;
+  --el-menu-level-padding: 8px;
+  --el-menu-item-height: 50px;
+
   /* 亮色模式变量 */
-  --sidebar-bg: #{$menuBg};
-  --sidebar-text: #{$menuText};
-  --menu-hover: #{$menuHover};
-  
+  --sidebar-bg: var(--menuBg);
+  --sidebar-text: var(--menuColor);
+  --menu-active-text: var(--menuActiveText);
+
   --navbar-bg: #ffffff;
   --navbar-text: #303133;
-  
+
+  --fixedHeaderBg: #ffffff;
+  --tableHeaderBg: #f8f8f9;
+  --tableHeaderTextColor: #515a6e;
+
   /* splitpanes default-theme 变量 */
   --splitpanes-default-bg: #ffffff;
 
 }
 
-// 暗黑模式变量
+// 暗黑模式变量 (若依Plus风格)
 html.dark {
+  /* 菜单主题变量 */
+  --menuBg: #1d1e1f;
+  --menuColor: #bfcbd9;
+  --menuActiveText: #f4f4f5;
+  --menuHover: #171819;
+
+  --subMenuBg: #1d1e1f;
+  --subMenuActiveText: #1d1e1f;
+  --subMenuHover: #171819;
+  --subMenuTitleHover: #171819;
+
   /* 默认通用 */
   --el-bg-color: #141414;
   --el-bg-color-overlay: #1d1e1f;
@@ -91,20 +127,20 @@ html.dark {
   --el-border-color-light: #434343;
   --el-menu-text-color: #d0d0d0;
   --sidebar-logo-text: #d0d0d0;
-  
+
   /* primary */
   --primary-bg: #18212b;
 
   /* 侧边栏 */
-  --sidebar-bg: #141414;
-  --sidebar-text: #ffffff;
-  --menu-hover: #2d2d2d;
-  --menu-active-text: #{$menuActiveText};
+  --sidebar-bg: var(--menuBg);
+  --sidebar-text: var(--menuColor);
+  --menu-active-text: var(--menuActiveText);
 
   /* 顶部导航栏 */
   --navbar-bg: #141414;
   --navbar-text: #ffffff;
   --navbar-hover: #141414;
+  --fixedHeaderBg: #171819;
 
   /* 标签栏 */
   --tags-bg: #141414;
@@ -128,12 +164,36 @@ html.dark {
   --blockquote-bg: #1d1e1f;
   --blockquote-border: #303030;
   --blockquote-text: #d0d0d0;
-  
+
   /* Cron 时间表达式 模式变量 */
   --cron-border: #303030;
 
   /* splitpanes default-theme 暗黑模式变量 */
   --splitpanes-default-bg: #141414;
+
+  /* 表格头 */
+  --tableHeaderBg: var(--el-bg-color);
+  --tableHeaderTextColor: var(--el-text-color);
+
+  /* 覆盖ele 高亮当前行的标准暗色 */
+  .el-tree-node__content {
+    --el-color-primary-light-9: #262727;
+  }
+
+  .el-button--primary {
+    --el-button-bg-color: var(--el-color-primary-dark-6);
+    --el-button-border-color: var(--el-color-primary-light-2);
+  }
+
+  .el-switch {
+    --el-switch-on-color: var(--el-color-primary-dark-6);
+    --el-switch-border-color: var(--el-color-primary-light-2);
+  }
+
+  .el-tag--primary {
+    --el-tag-bg-color: var(--el-color-primary-dark-6);
+    --el-tag-border-color: var(--el-color-primary-light-2);
+  }
 
   /* 侧边栏菜单覆盖 */
   .sidebar-container {
@@ -144,10 +204,10 @@ html.dark {
     & .el-menu .theme-dark .el-sub-menu .el-menu-item,
     & .theme-dark .nest-menu .el-sub-menu > .el-sub-menu__title,
     & .theme-dark .el-sub-menu .el-menu-item {
-      background-color: var(--el-bg-color) !important;
+      background-color: var(--subMenuBg) !important;
 
       &:hover {
-        background-color: var(--menu-hover) !important;
+        background-color: var(--subMenuHover) !important;
       }
     }
     &.theme-light {
@@ -324,7 +384,7 @@ html.dark {
       background-color: var(--el-bg-color-overlay);
     }
   }
-  
+
   /* 下拉菜单样式覆盖 */
   .el-dropdown-menu__item:not(.is-disabled):focus, .el-dropdown-menu__item:not(.is-disabled):hover{
     background-color: var(--navbar-hover) !important;
@@ -336,7 +396,7 @@ html.dark {
     border-left-color: var(--blockquote-border) !important;
     color: var(--blockquote-text) !important;
   }
-  
+
   /* 时间表达式标题样式覆盖 */
   .popup-result .title {
     background: var(--cron-border);

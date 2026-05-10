@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuitong.knowledge.mapper.SysCampusKnowledgeTypeMapper">
+    
+    <resultMap type="SysCampusKnowledgeType" id="SysCampusKnowledgeTypeResult">
+        <result property="id"    column="id"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectSysCampusKnowledgeTypeVo">
+        select id, type_name, sort, status, create_time from sys_campus_knowledge_type
+    </sql>
+
+    <select id="selectSysCampusKnowledgeTypeList" parameterType="SysCampusKnowledgeType" resultMap="SysCampusKnowledgeTypeResult">
+        <include refid="selectSysCampusKnowledgeTypeVo"/>
+        <where>  
+            <if test="typeName != null  and typeName != ''"> and type_name like concat('%', #{typeName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysCampusKnowledgeTypeById" parameterType="Long" resultMap="SysCampusKnowledgeTypeResult">
+        <include refid="selectSysCampusKnowledgeTypeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysCampusKnowledgeType" parameterType="SysCampusKnowledgeType" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_campus_knowledge_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeName != null and typeName != ''">type_name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeName != null and typeName != ''">#{typeName},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysCampusKnowledgeType" parameterType="SysCampusKnowledgeType">
+        update sys_campus_knowledge_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeName != null and typeName != ''">type_name = #{typeName},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysCampusKnowledgeTypeById" parameterType="Long">
+        delete from sys_campus_knowledge_type where id = #{id}
+    </delete>
+
+    <delete id="deleteSysCampusKnowledgeTypeByIds" parameterType="String">
+        delete from sys_campus_knowledge_type where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -27,3 +27,12 @@ export * from "./monitor/online";
 
 // 代码生成模块
 export * from "./tool/gen";
+
+// AI 聊天模块
+export * from "./agent";
+
+// 知识模块
+export * from "./knowledge/knowledge";
+export * from "./knowledge/type";
+
+export * from "./template/template";

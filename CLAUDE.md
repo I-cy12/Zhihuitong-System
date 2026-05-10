@@ -15,6 +15,7 @@ Zhihuitong (校园智慧通) is a campus management system built on the RuoYi v3
 - `zhihuitong/` — Java backend (Spring Boot 3.5, Java 17, Maven multi-module)
 - `frontend/` — Primary frontend (Vue 3, TypeScript, Vite, Element Plus)
 - `zhihuitong/zhihuitong-ui/` — Legacy frontend (Vue 2, JavaScript, Vue CLI, Element UI)
+- `zhihuitong-agent-python/` — Python AI agent service (LangChain + LangGraph + FastAPI)
 - `zhihuitong.sql` — Database schema/seed SQL
 
 ## Backend Architecture
@@ -30,6 +31,8 @@ Maven multi-module project with groupId `com.zhihuitong`:
 | `zhihuitong-platform` | Business domain modules (course, note, template) |
 | `zhihuitong-quartz` | Scheduled task infrastructure |
 | `zhihuitong-generator` | Code generation from database tables |
+| `zhihuitong-oss` | Object storage (Tencent Cloud COS) |
+| `zhihuitong-agent` | Java-side AI agent integration (currently empty, bridge to Python agent) |
 
 ### Backend Commands
 
@@ -66,7 +69,7 @@ zhihuitong/bin/clean.bat     # Clean
 
 ## Frontend Architecture (Primary — `frontend/`)
 
-Vue 3 + TypeScript + Vite + Element Plus + Pinia.
+Vue 3 + TypeScript + Vite + Element Plus + Pinia. Dev server runs on port **9527**, proxies `/dev-api` to backend at `localhost:8080`.
 
 ### Frontend Commands
 
@@ -76,7 +79,7 @@ cd frontend
 # Install dependencies
 yarn --registry=https://registry.npmmirror.com
 
-# Dev server
+# Dev server (port 9527)
 yarn dev
 
 # Build for production
@@ -107,6 +110,42 @@ yarn preview
 - `.env.staging` — Staging: base API `/stage-api`
 - `.env.production` — Prod: base API `/prod-api`, gzip compression enabled
 
+## Python AI Agent Service (`zhihuitong-agent-python/`)
+
+独立的 Python 服务，基于 LangChain + LangGraph 构建，提供 AI 对话、RAG 检索、联网搜索功能。通过 REST API 与 Java 后端集成。
+
+```bash
+cd zhihuitong-agent-python
+
+# 安装依赖（需要 Python >= 3.14）
+uv sync
+
+# 启动服务（默认端口 8000）
+uv run zhihuitong-agent
+
+# 或直接运行
+python -m zhihuitong_agent.main
+```
+
+配置：复制 `.env.example` 为 `.env`，填写 `LLM_API_KEY`、`LLM_BASE_URL`、`LLM_MODEL`。
+
+### 关键 API 端点
+
+- `POST /chat/stream` — SSE 流式对话
+- `DELETE /chat/memory/{thread_id}` — 清除会话记忆
+- `POST /rag/index` — 索引知识库文章
+- `POST /rag/index/all` — 批量重建索引
+- `GET /config` / `PUT /config` — 查看/更新运行时配置
+
+### 架构要点
+
+- **Agent 层**：`chat_agent.py`（对话）、`rag_agent.py`（知识检索）、`search_agent.py`（联网搜索），继承 `BaseAgent`
+- **Graph 层**：LangGraph 工作流（`agent/graph/workflow.py`），节点+边定义在 `nodes.py`/`edges.py`
+- **记忆**：三层架构 — 短期记忆、摘要记忆、长期记忆（SQLite 存储）
+- **RAG**：ChromaDB 向量存储，`rag/` 模块负责文档分块、索引、检索
+- **工具**：Tavily 联网搜索（`tools/search_tool.py`）
+- **API**：FastAPI 路由在 `api/` 下，支持 SSE 流式响应
+
 ## Key Conventions
 
 - Backend base package: `com.zhihuitong`
@@ -115,4 +154,5 @@ yarn preview
 - Data permission enforced via `@DataScope` aspect
 - Logging via `@Log` annotation with AOP
 - Frontend API calls go through a shared axios instance with token injection
-- The zhihuitong-platform module contains custom business logic beyond the base RuoYi framework
+- `zhihuitong-platform` contains custom business domains: `course/`（课程管理）、`note/`（笔记管理）、`template/`（模板管理）
+- Frontend 路径别名：`@` → `src/`，`~` → 项目根目录
