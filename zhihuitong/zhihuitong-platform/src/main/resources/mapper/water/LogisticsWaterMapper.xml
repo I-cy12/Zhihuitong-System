@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuitong.water.mapper.LogisticsWaterMapper">
+    
+    <resultMap type="LogisticsWater" id="LogisticsWaterResult">
+        <result property="id"    column="id"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="waterConsumption"    column="water_consumption"    />
+        <result property="useStatus"    column="use_status"    />
+        <result property="useDate"    column="use_date"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLogisticsWaterVo">
+        select id, area_name, device_name, device_code, water_consumption, use_status, use_date, remark, create_by, create_time, update_by, update_time from logistics_water
+    </sql>
+
+    <select id="selectLogisticsWaterList" parameterType="LogisticsWater" resultMap="LogisticsWaterResult">
+        <include refid="selectLogisticsWaterVo"/>
+        <where>  
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="useStatus != null  and useStatus != ''"> and use_status = #{useStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectLogisticsWaterById" parameterType="Long" resultMap="LogisticsWaterResult">
+        <include refid="selectLogisticsWaterVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertLogisticsWater" parameterType="LogisticsWater" useGeneratedKeys="true" keyProperty="id">
+        insert into logistics_water
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaName != null">area_name,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="deviceCode != null">device_code,</if>
+            <if test="waterConsumption != null">water_consumption,</if>
+            <if test="useStatus != null">use_status,</if>
+            <if test="useDate != null">use_date,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaName != null">#{areaName},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="deviceCode != null">#{deviceCode},</if>
+            <if test="waterConsumption != null">#{waterConsumption},</if>
+            <if test="useStatus != null">#{useStatus},</if>
+            <if test="useDate != null">#{useDate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLogisticsWater" parameterType="LogisticsWater">
+        update logistics_water
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="deviceCode != null">device_code = #{deviceCode},</if>
+            <if test="waterConsumption != null">water_consumption = #{waterConsumption},</if>
+            <if test="useStatus != null">use_status = #{useStatus},</if>
+            <if test="useDate != null">use_date = #{useDate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLogisticsWaterById" parameterType="Long">
+        delete from logistics_water where id = #{id}
+    </delete>
+
+    <delete id="deleteLogisticsWaterByIds" parameterType="String">
+        delete from logistics_water where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -5,5 +5,5 @@
 
 // 防止覆盖，需手动追加下面代码到index.ts文件中，追加好后此文件可删除
 
-// knowledge 模块
-export * from "./knowledge/type";
+// repair 模块
+export * from "./repair/repair";

@@ -8,6 +8,7 @@ import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.region.Region;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,8 +20,8 @@ import java.util.Date;
 public class TengxunCosUtil {
 
     // 腾讯云配置（请在配置文件中填写真实密钥）
-    private String secretId = "YOUR_SECRET_ID"; // TODO: 从配置文件读取
-    private String secretKey = "YOUR_SECRET_KEY"; // TODO: 从配置文件读取
+    private String secretId = "secretid"; // TODO: 从配置文件读取
+    private String secretKey = "secretkey"; // TODO: 从配置文件读取
     private String region = "ap-beijing";
     private String bucketName = "moliya-bloger-1423725546";
 
@@ -43,6 +44,11 @@ public class TengxunCosUtil {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(getContentType(fileName.substring(fileName.lastIndexOf("."))));
 
+            try {
+                metadata.setContentLength(inputStream.available());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             // 4. 上传
             cosClient.putObject(bucketName, objectName, inputStream, metadata);
 
