@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuitong.search.mapper.StuNoteSearchMapper">
+    
+    <resultMap type="StuNoteSearch" id="StuNoteSearchResult">
+        <result property="id"    column="id"    />
+        <result property="noteId"    column="note_id"    />
+        <result property="title"    column="title"    />
+        <result property="tags"    column="tags"    />
+        <result property="studentName"    column="student_name"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectStuNoteSearchVo">
+        select id, note_id, title, tags, student_name, create_time from stu_note_search
+    </sql>
+
+    <select id="selectStuNoteSearchList" parameterType="StuNoteSearch" resultMap="StuNoteSearchResult">
+        <include refid="selectStuNoteSearchVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="tags != null  and tags != ''"> and tags like concat('%', #{tags}, '%')</if>
+            <if test="studentName != null  and studentName != ''"> and student_name like concat('%', #{studentName}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectStuNoteSearchById" parameterType="Long" resultMap="StuNoteSearchResult">
+        <include refid="selectStuNoteSearchVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertStuNoteSearch" parameterType="StuNoteSearch" useGeneratedKeys="true" keyProperty="id">
+        insert into stu_note_search
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="noteId != null">note_id,</if>
+            <if test="title != null">title,</if>
+            <if test="tags != null">tags,</if>
+            <if test="studentName != null">student_name,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="noteId != null">#{noteId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="tags != null">#{tags},</if>
+            <if test="studentName != null">#{studentName},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStuNoteSearch" parameterType="StuNoteSearch">
+        update stu_note_search
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="noteId != null">note_id = #{noteId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="tags != null">tags = #{tags},</if>
+            <if test="studentName != null">student_name = #{studentName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStuNoteSearchById" parameterType="Long">
+        delete from stu_note_search where id = #{id}
+    </delete>
+
+    <delete id="deleteStuNoteSearchByIds" parameterType="String">
+        delete from stu_note_search where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
