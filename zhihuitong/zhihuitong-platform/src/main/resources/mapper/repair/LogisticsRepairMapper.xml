@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuitong.repair.mapper.LogisticsRepairMapper">
+    
+    <resultMap type="LogisticsRepair" id="LogisticsRepairResult">
+        <result property="id"    column="id"    />
+        <result property="repairNo"    column="repair_no"    />
+        <result property="repairType"    column="repair_type"    />
+        <result property="repairTitle"    column="repair_title"    />
+        <result property="repairContent"    column="repair_content"    />
+        <result property="repairPerson"    column="repair_person"    />
+        <result property="repairPhone"    column="repair_phone"    />
+        <result property="repairAddress"    column="repair_address"    />
+        <result property="repairStatus"    column="repair_status"    />
+        <result property="handlePerson"    column="handle_person"    />
+        <result property="handleContent"    column="handle_content"    />
+        <result property="handleTime"    column="handle_time"    />
+        <result property="repairImage"    column="repair_image"    />
+        <result property="handleImage"    column="handle_image"    />
+        <result property="sort"    column="sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLogisticsRepairVo">
+        select id, repair_no, repair_type, repair_title, repair_content, repair_person, repair_phone, repair_address, repair_status, handle_person, handle_content, handle_time, repair_image, handle_image, sort, remark, create_by, create_time, update_by, update_time from logistics_repair
+    </sql>
+
+    <select id="selectLogisticsRepairList" parameterType="LogisticsRepair" resultMap="LogisticsRepairResult">
+        <include refid="selectLogisticsRepairVo"/>
+        <where>  
+            <if test="repairType != null  and repairType != ''"> and repair_type = #{repairType}</if>
+            <if test="repairPerson != null  and repairPerson != ''"> and repair_person like concat('%', #{repairPerson}, '%')</if>
+            <if test="repairStatus != null  and repairStatus != ''"> and repair_status = #{repairStatus}</if>
+            <if test="handlePerson != null  and handlePerson != ''"> and handle_person like concat('%', #{handlePerson}, '%')</if>
+            <if test="repairAddress != null and repairAddress != ''"> and repair_address like concat('%', #{repairAddress}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectLogisticsRepairById" parameterType="Long" resultMap="LogisticsRepairResult">
+        <include refid="selectLogisticsRepairVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertLogisticsRepair" parameterType="LogisticsRepair" useGeneratedKeys="true" keyProperty="id">
+        insert into logistics_repair
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repairNo != null">repair_no,</if>
+            <if test="repairType != null and repairType != ''">repair_type,</if>
+            <if test="repairTitle != null and repairTitle != ''">repair_title,</if>
+            <if test="repairContent != null and repairContent != ''">repair_content,</if>
+            <if test="repairPerson != null and repairPerson != ''">repair_person,</if>
+            <if test="repairPhone != null and repairPhone != ''">repair_phone,</if>
+            <if test="repairAddress != null">repair_address,</if>
+            <if test="repairStatus != null and repairStatus != ''">repair_status,</if>
+            <if test="handlePerson != null">handle_person,</if>
+            <if test="handleContent != null">handle_content,</if>
+            <if test="handleTime != null">handle_time,</if>
+            <if test="repairImage != null">repair_image,</if>
+            <if test="handleImage != null">handle_image,</if>
+            <if test="sort != null">sort,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="repairNo != null">#{repairNo},</if>
+            <if test="repairType != null and repairType != ''">#{repairType},</if>
+            <if test="repairTitle != null and repairTitle != ''">#{repairTitle},</if>
+            <if test="repairContent != null and repairContent != ''">#{repairContent},</if>
+            <if test="repairPerson != null and repairPerson != ''">#{repairPerson},</if>
+            <if test="repairPhone != null and repairPhone != ''">#{repairPhone},</if>
+            <if test="repairAddress != null">#{repairAddress},</if>
+            <if test="repairStatus != null and repairStatus != ''">#{repairStatus},</if>
+            <if test="handlePerson != null">#{handlePerson},</if>
+            <if test="handleContent != null">#{handleContent},</if>
+            <if test="handleTime != null">#{handleTime},</if>
+            <if test="repairImage != null">#{repairImage},</if>
+            <if test="handleImage != null">#{handleImage},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLogisticsRepair" parameterType="LogisticsRepair">
+        update logistics_repair
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="repairNo != null">repair_no = #{repairNo},</if>
+            <if test="repairType != null and repairType != ''">repair_type = #{repairType},</if>
+            <if test="repairTitle != null and repairTitle != ''">repair_title = #{repairTitle},</if>
+            <if test="repairContent != null and repairContent != ''">repair_content = #{repairContent},</if>
+            <if test="repairPerson != null and repairPerson != ''">repair_person = #{repairPerson},</if>
+            <if test="repairPhone != null and repairPhone != ''">repair_phone = #{repairPhone},</if>
+            <if test="repairAddress != null">repair_address = #{repairAddress},</if>
+            <if test="repairStatus != null and repairStatus != ''">repair_status = #{repairStatus},</if>
+            <if test="handlePerson != null">handle_person = #{handlePerson},</if>
+            <if test="handleContent != null">handle_content = #{handleContent},</if>
+            <if test="handleTime != null">handle_time = #{handleTime},</if>
+            <if test="repairImage != null">repair_image = #{repairImage},</if>
+            <if test="handleImage != null">handle_image = #{handleImage},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLogisticsRepairById" parameterType="Long">
+        delete from logistics_repair where id = #{id}
+    </delete>
+
+    <delete id="deleteLogisticsRepairByIds" parameterType="String">
+        delete from logistics_repair where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

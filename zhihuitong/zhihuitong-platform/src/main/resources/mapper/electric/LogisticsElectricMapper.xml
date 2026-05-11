@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuitong.electric.mapper.LogisticsElectricMapper">
+    
+    <resultMap type="LogisticsElectric" id="LogisticsElectricResult">
+        <result property="id"    column="id"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="electricConsumption"    column="electric_consumption"    />
+        <result property="useStatus"    column="use_status"    />
+        <result property="useDate"    column="use_date"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLogisticsElectricVo">
+        select id, area_name, device_name, device_code, electric_consumption, use_status, use_date, remark, create_by, create_time, update_by, update_time from logistics_electric
+    </sql>
+
+    <select id="selectLogisticsElectricList" parameterType="LogisticsElectric" resultMap="LogisticsElectricResult">
+        <include refid="selectLogisticsElectricVo"/>
+        <where>  
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="useStatus != null  and useStatus != ''"> and use_status = #{useStatus}</if>
+            <if test="useDate != null "> and use_date = #{useDate}</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code like concat('%', #{deviceCode}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectLogisticsElectricById" parameterType="Long" resultMap="LogisticsElectricResult">
+        <include refid="selectLogisticsElectricVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertLogisticsElectric" parameterType="LogisticsElectric" useGeneratedKeys="true" keyProperty="id">
+        insert into logistics_electric
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaName != null">area_name,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="deviceCode != null">device_code,</if>
+            <if test="electricConsumption != null">electric_consumption,</if>
+            <if test="useStatus != null">use_status,</if>
+            <if test="useDate != null">use_date,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaName != null">#{areaName},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="deviceCode != null">#{deviceCode},</if>
+            <if test="electricConsumption != null">#{electricConsumption},</if>
+            <if test="useStatus != null">#{useStatus},</if>
+            <if test="useDate != null">#{useDate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLogisticsElectric" parameterType="LogisticsElectric">
+        update logistics_electric
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="deviceCode != null">device_code = #{deviceCode},</if>
+            <if test="electricConsumption != null">electric_consumption = #{electricConsumption},</if>
+            <if test="useStatus != null">use_status = #{useStatus},</if>
+            <if test="useDate != null">use_date = #{useDate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLogisticsElectricById" parameterType="Long">
+        delete from logistics_electric where id = #{id}
+    </delete>
+
+    <delete id="deleteLogisticsElectricByIds" parameterType="String">
+        delete from logistics_electric where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
